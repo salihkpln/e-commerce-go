@@ -9,9 +9,9 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-func NewDatabaseConnection(cfg config.DatabaseConfig) (*gorm.DB, error) {
+func NewDatabaseConnection(cfg *config.DatabaseConfig) (*gorm.DB, error) {
 	dsn := fmt.Sprintf(
-		"host=%s user=%s REDACTED=%s dbname=%s port=%s sslmode=%s",
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
 		cfg.Host,
 		cfg.User,
 		cfg.Password,
@@ -24,7 +24,7 @@ func NewDatabaseConnection(cfg config.DatabaseConfig) (*gorm.DB, error) {
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
-		return nil, fmt.Errorf("Failed to connect to database: %w", err)
+		return nil, fmt.Errorf("failed to connect to database: %w", err)
 	}
 
 	return db, nil
