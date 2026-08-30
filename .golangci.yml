@@ -13,9 +13,8 @@ linters:
     - ineffassign
     - misspell
     - gocritic
-    - revive
 
-linters-settings:
+linters.settings:
   errcheck:
     check-type-assertions: true
   revive:

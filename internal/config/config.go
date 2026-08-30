@@ -65,14 +65,14 @@ func LoadConfig() (*Config, error) {
 			Host:     getEnv("DB_HOST", "localhost"),
 			Port:     getEnv("DB_PORT", "5432"),
 			User:     getEnv("DB_USER", "postgres"),
-			Password: getEnv("REDACTED", "REDACTED"),
+			Password: getEnv("DB_PASSWORD", ""),
 			Name:     getEnv("DB_NAME", "ecommerce"),
 			SSLMode:  getEnv("DB_SSLMODE", "disable"),
 		},
 		JWT: JWTConfig{
-			SecretKey:              getEnv("REDACTED", "REDACTED"),
-			ExpirationHours:        time.Duration(jwtExpirationHours),
-			RefreshExpirationHours: time.Duration(jwtRefreshExpirationHours),
+			SecretKey:              getEnv("JWT_SECRET_KEY", ""),
+			ExpirationHours:        time.Duration(jwtExpirationHours) * time.Hour,
+			RefreshExpirationHours: time.Duration(jwtRefreshExpirationHours) * time.Hour,
 		},
 		AWS: AWSConfig{
 			Region:     getEnv("AWS_REGION", "us-east-1"),
@@ -88,7 +88,7 @@ func LoadConfig() (*Config, error) {
 	}, nil
 }
 
-func getEnv(key string, defaultValue string) string {
+func getEnv(key, defaultValue string) string {
 	if value, exists := os.LookupEnv(key); exists {
 		return value
 	}
